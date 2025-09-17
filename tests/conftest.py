@@ -2,7 +2,7 @@ import pytest
 from generators import generate_courier_payload
 from courier_methods import CouriersMethod
 from order_methods import OrderMethods
-import data
+from data import DataOrder
 
 
 # Данные для создания курьера; удаление курьера
@@ -36,7 +36,7 @@ def create_courier():
 # Создает заказ, трек номер заказа, id заказа; отменяет созданный заказ, удаляет принятый заказ
 @pytest.fixture
 def create_order():
-    create_order_response = OrderMethods.create_order(data.data_order)
+    create_order_response = OrderMethods.create_order(DataOrder.data_order)
     track_number = OrderMethods.get_order_track(create_order_response)
     order_id = OrderMethods.get_order_id_by_track(track_number)
     yield { 
@@ -46,7 +46,7 @@ def create_order():
     OrderMethods.cancel_order(track_number)
     OrderMethods.finish_order(order_id )
 
-# Отмена соданного заказа
+# Отмена созданного заказа
 @pytest.fixture
 def cancel_order():
     track_number = {"track_number": None}
